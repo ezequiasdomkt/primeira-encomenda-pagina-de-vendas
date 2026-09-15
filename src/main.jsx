@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import { Calculator, Check, Clock3, Package, Sparkles, TrendingUp, Utensils, WalletCards, BadgePercent } from 'lucide-react';
+import { Calculator, Check, Clock3, Package, Sparkles, TrendingUp, Utensils, WalletCards, BadgePercent, MousePointer2 } from 'lucide-react';
 import './styles.css';
 
 const CHECKOUT_URL = import.meta.env.VITE_CAKTO_CHECKOUT_URL || '#oferta';
@@ -27,35 +27,114 @@ function BookMockup() {
   );
 }
 
-function PriceCalculatorDemo() {
+function AnimatedCalculator() {
+  const [phase, setPhase] = useState(0);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setPhase((current) => (current + 1) % 15);
+    }, 850);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  const showName = phase >= 1;
+  const showQuantity = phase >= 2;
+  const showIngredients = phase >= 3;
+  const showPackaging = phase >= 4;
+  const showHours = phase >= 5;
+  const showHourValue = phase >= 6;
+  const showMargin = phase >= 7;
+  const showResult = phase >= 9;
+  const clicked = phase === 8 || phase >= 9;
+
   return (
-    <div className="calculator-card calculator-preview">
-      <div className="calc-header"><div><span>PRIMEIRA ENCOMENDA</span><h2>Calculadora de preço</h2></div><Calculator size={26} /></div>
-      <div className="order-pill">Encomenda de 10 brigadeiros</div>
-      <div className="calc-total"><small>Custo estimado</small><strong>R$ 20,00</strong></div>
-      <div className="calc-stats"><div><span>Custo por unidade</span><b>R$ 2,00</b></div><div><span>Preço de referência</span><b>R$ 48,00</b></div></div>
-      <div className="calc-note">Ingredientes + embalagem + mão de obra + outros custos entram na conta.</div>
+    <div className="calculator-card calculator-preview animated-calculator" aria-label="Demonstração animada da calculadora">
+      <div className="calc-header">
+        <div><span>PRIMEIRA ENCOMENDA</span><h2>Calcule o preço certo do seu doce</h2></div>
+        <Calculator size={26} />
+      </div>
+      <p className="animated-subtitle">Preencha os dados abaixo e descubra quanto cobrar pela sua encomenda.</p>
+
+      <div className="animated-step active-step">
+        <div className="animated-step-number">1</div>
+        <div className="animated-step-body">
+          <h3>O que você vai vender?</h3>
+          <p>Digite o nome do doce e quantas unidades você vai produzir.</p>
+          <div className="animated-fields two-columns">
+            <div className={`animated-field ${showName ? 'filled' : ''}`}><label>Nome do doce</label><div className="field-value">{showName ? 'Brigadeiro Gourmet' : <span className="field-placeholder">Digite o nome...</span>}</div></div>
+            <div className={`animated-field ${showQuantity ? 'filled' : ''}`}><label>Quantidade de unidades</label><div className="field-value">{showQuantity ? '20' : <span className="field-placeholder">0</span>}<span>un.</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div className="animated-step">
+        <div className="animated-step-number">2</div>
+        <div className="animated-step-body">
+          <h3>Quanto você vai gastar?</h3>
+          <p>Informe os valores que você vai gastar para fazer a encomenda.</p>
+          <div className="animated-fields two-columns">
+            <div className={`animated-field ${showIngredients ? 'filled' : ''}`}><label>Ingredientes</label><div className="field-value">{showIngredients ? 'R$ 15' : 'R$ 0'}</div></div>
+            <div className={`animated-field ${showPackaging ? 'filled' : ''}`}><label>Embalagem</label><div className="field-value">{showPackaging ? 'R$ 5' : 'R$ 0'}</div></div>
+            <div className={`animated-field ${showHours ? 'filled' : ''}`}><label>Mão de obra (horas)</label><div className="field-value">{showHours ? '3' : '0'}<span>h</span></div></div>
+            <div className={`animated-field ${showHourValue ? 'filled' : ''}`}><label>Valor da hora</label><div className="field-value">{showHourValue ? 'R$ 5' : 'R$ 0'}</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div className="animated-step compact-step">
+        <div className="animated-step-number">3</div>
+        <div className="animated-step-body">
+          <h3>Quanto você quer lucrar?</h3>
+          <p>Escolha uma porcentagem de lucro para sua encomenda.</p>
+          <div className="margin-options"><span>30%</span><span className={showMargin ? 'selected' : ''}>40%</span><span>50%</span></div>
+        </div>
+      </div>
+
+      <div className={`animated-calculate ${clicked ? 'clicked' : ''}`}>
+        <span>Calcular quanto cobrar</span>
+        {clicked && <MousePointer2 className="fake-cursor" size={21} />}
+      </div>
+
+      <div className={`animated-result ${showResult ? 'visible' : ''}`}>
+        <small>Preço de referência</small>
+        <strong>R$ 48,00</strong>
+        <span>Valor sugerido para a encomenda</span>
+      </div>
     </div>
   );
 }
 
 function CalculatorCarousel() {
   const [active, setActive] = useState(0);
+  const stageRef = React.useRef(null);
+
+  const scrollToSlide = (index) => {
+    const stage = stageRef.current;
+    if (!stage) return;
+    const target = stage.children[index];
+    target?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+    setActive(index);
+  };
 
   useEffect(() => {
-    const timer = window.setInterval(() => setActive((current) => (current + 1) % calculatorSlides.length), 3200);
-    return () => window.clearInterval(timer);
+    const stage = stageRef.current;
+    if (!stage) return;
+    const onScroll = () => {
+      const index = Math.round(stage.scrollLeft / stage.clientWidth);
+      setActive(Math.max(0, Math.min(index, calculatorSlides.length - 1)));
+    };
+    stage.addEventListener('scroll', onScroll, { passive: true });
+    return () => stage.removeEventListener('scroll', onScroll);
   }, []);
 
   return (
     <div className="calc-carousel" aria-label="Itens considerados pela calculadora">
       <div className="carousel-label">O QUE ENTRA NA CONTA?</div>
-      <div className="carousel-stage">
-        {calculatorSlides.map((slide, index) => {
+      <div className="carousel-stage" ref={stageRef}>
+        {calculatorSlides.map((slide) => {
           const Icon = slide.icon;
-          const offset = (index - active + calculatorSlides.length) % calculatorSlides.length;
           return (
-            <article key={slide.title} className={`carousel-slide ${offset === 0 ? 'active' : ''} ${offset === 1 ? 'next' : ''} ${offset === calculatorSlides.length - 1 ? 'previous' : ''}`}>
+            <article key={slide.title} className="carousel-slide">
               <div className="carousel-icon"><Icon size={25} /></div>
               <div>
                 <h3>{slide.title}</h3>
@@ -67,8 +146,9 @@ function CalculatorCarousel() {
         })}
       </div>
       <div className="carousel-dots">
-        {calculatorSlides.map((slide, index) => <button key={slide.title} className={index === active ? 'active' : ''} aria-label={`Mostrar ${slide.title}`} onClick={() => setActive(index)} />)}
+        {calculatorSlides.map((slide, index) => <button key={slide.title} className={index === active ? 'active' : ''} aria-label={`Mostrar ${slide.title}`} onClick={() => scrollToSlide(index)} />)}
       </div>
+      <div className="swipe-hint">Deslize para o lado <span>→</span></div>
     </div>
   );
 }
@@ -105,7 +185,7 @@ function App() {
 
         <div className="container calculator-showcase">
           <div className="calculator-visual-column">
-            <PriceCalculatorDemo />
+            <AnimatedCalculator />
           </div>
           <CalculatorCarousel />
         </div>
