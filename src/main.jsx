@@ -176,12 +176,6 @@ function App() {
           <span className="section-kicker">ANTES DE PRODUZIR</span>
           <h2>Entenda tudo que entra no custo<br /><span>da sua encomenda.</span></h2>
         </div>
-        <div className="container cost-grid">
-          <div className="cost-card"><WalletCards size={23}/><h3>Ingredientes</h3><p>Chocolate, leite condensado, manteiga, granulado e outros.</p><strong>R$ 28,50</strong></div>
-          <div className="cost-card"><Clock3 size={23}/><h3>Mão de obra</h3><p>Seu tempo e dedicação também têm valor.</p><strong>R$ 22,00</strong></div>
-          <div className="cost-card"><Package size={23}/><h3>Embalagem</h3><p>Caixinhas, forminhas, etiquetas e proteção.</p><strong>R$ 12,30</strong></div>
-          <div className="cost-card"><Sparkles size={23}/><h3>Outros custos</h3><p>Energia, água, gás, utensílios e imprevistos.</p><strong>R$ 8,70</strong></div>
-        </div>
 
         <div className="container calculator-showcase">
           <div className="calculator-visual-column">
