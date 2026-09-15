@@ -39,9 +39,9 @@ function App() {
 
           <div className="calculator-card">
             <div className="calc-header"><div><span>PRIMEIRA ENCOMENDA</span><h2>Calculadora de preço</h2></div><Calculator size={26} /></div>
-            <div className="order-pill">Encomenda de 100 brigadeiros</div>
-            <div className="calc-total"><small>Custo estimado</small><strong>R$ 80,02</strong></div>
-            <div className="calc-stats"><div><span>Custo por unidade</span><b>R$ 0,80</b></div><div><span>Preço de referência</span><b>R$ 133,37</b></div></div>
+            <div className="order-pill">Encomenda de 10 brigadeiros</div>
+            <div className="calc-total"><small>Custo estimado</small><strong>R$ 20,00</strong></div>
+            <div className="calc-stats"><div><span>Custo por unidade</span><b>R$ 2,00</b></div><div><span>Preço de referência</span><b>R$ 48,00</b></div></div>
             <div className="calc-note">Ingredientes + embalagem + mão de obra + outros custos entram na conta.</div>
           </div>
         </div>
