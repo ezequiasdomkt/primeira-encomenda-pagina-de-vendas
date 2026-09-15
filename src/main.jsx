@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import { Calculator, Check, Clock3, Package, Sparkles, TrendingUp, Utensils, WalletCards } from 'lucide-react';
+import { Calculator, Check, Clock3, Package, Sparkles, TrendingUp, Utensils, WalletCards, BadgePercent } from 'lucide-react';
 import './styles.css';
 
 const CHECKOUT_URL = import.meta.env.VITE_CAKTO_CHECKOUT_URL || '#oferta';
+
+const calculatorSlides = [
+  { title: 'Ingredientes', text: 'Chocolate, leite condensado, manteiga, granulado e outros.', value: 'R$ 28,50', icon: WalletCards },
+  { title: 'Mão de obra', text: 'Seu tempo e dedicação também têm valor.', value: 'R$ 22,00', icon: Clock3 },
+  { title: 'Embalagem', text: 'Caixinhas, forminhas, etiquetas e proteção.', value: 'R$ 12,30', icon: Package },
+  { title: 'Outros custos', text: 'Energia, água, gás, utensílios e imprevistos.', value: 'R$ 8,70', icon: Sparkles },
+  { title: 'Margem de lucro', text: 'Escolha uma margem para saber quanto cobrar com segurança.', value: '40%', icon: BadgePercent },
+];
 
 function BookMockup() {
   return (
@@ -21,12 +29,46 @@ function BookMockup() {
 
 function PriceCalculatorDemo() {
   return (
-    <div className="calculator-card">
+    <div className="calculator-card calculator-preview">
       <div className="calc-header"><div><span>PRIMEIRA ENCOMENDA</span><h2>Calculadora de preço</h2></div><Calculator size={26} /></div>
       <div className="order-pill">Encomenda de 10 brigadeiros</div>
       <div className="calc-total"><small>Custo estimado</small><strong>R$ 20,00</strong></div>
       <div className="calc-stats"><div><span>Custo por unidade</span><b>R$ 2,00</b></div><div><span>Preço de referência</span><b>R$ 48,00</b></div></div>
       <div className="calc-note">Ingredientes + embalagem + mão de obra + outros custos entram na conta.</div>
+    </div>
+  );
+}
+
+function CalculatorCarousel() {
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => setActive((current) => (current + 1) % calculatorSlides.length), 3200);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  return (
+    <div className="calc-carousel" aria-label="Itens considerados pela calculadora">
+      <div className="carousel-label">O QUE ENTRA NA CONTA?</div>
+      <div className="carousel-stage">
+        {calculatorSlides.map((slide, index) => {
+          const Icon = slide.icon;
+          const offset = (index - active + calculatorSlides.length) % calculatorSlides.length;
+          return (
+            <article key={slide.title} className={`carousel-slide ${offset === 0 ? 'active' : ''} ${offset === 1 ? 'next' : ''} ${offset === calculatorSlides.length - 1 ? 'previous' : ''}`}>
+              <div className="carousel-icon"><Icon size={25} /></div>
+              <div>
+                <h3>{slide.title}</h3>
+                <p>{slide.text}</p>
+                <strong>{slide.value}</strong>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+      <div className="carousel-dots">
+        {calculatorSlides.map((slide, index) => <button key={slide.title} className={index === active ? 'active' : ''} aria-label={`Mostrar ${slide.title}`} onClick={() => setActive(index)} />)}
+      </div>
     </div>
   );
 }
@@ -61,12 +103,16 @@ function App() {
           <div className="cost-card"><Sparkles size={23}/><h3>Outros custos</h3><p>Energia, água, gás, utensílios e imprevistos.</p><strong>R$ 8,70</strong></div>
         </div>
 
-        <div className="container calculator-demo-wrap">
-          <PriceCalculatorDemo />
-          <div className="calculator-subcopy center">
-            <h2>O problema não é fazer o brigadeiro,<br /><span>é saber se a encomenda vale a pena.</span></h2>
-            <p>Quando você está começando, é fácil esquecer embalagem, seu tempo, gás, energia e outros pequenos custos. Aí você entrega, recebe o pagamento e só depois percebe que trabalhou muito por pouco.</p>
+        <div className="container calculator-showcase">
+          <div className="calculator-visual-column">
+            <PriceCalculatorDemo />
           </div>
+          <CalculatorCarousel />
+        </div>
+
+        <div className="container calculator-subcopy center">
+          <h2>O problema não é fazer o brigadeiro,<br /><span>é saber se a encomenda vale a pena.</span></h2>
+          <p>Quando você está começando, é fácil esquecer embalagem, seu tempo, gás, energia e outros pequenos custos. Aí você entrega, recebe o pagamento e só depois percebe que trabalhou muito por pouco.</p>
         </div>
       </section>
 
