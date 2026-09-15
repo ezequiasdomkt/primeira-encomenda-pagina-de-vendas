@@ -30,9 +30,9 @@ function App() {
       <section className="hero">
         <div className="container hero-grid">
           <div className="hero-copy">
-            <span className="eyebrow">Para quem quer vender brigadeiro gourmet na rua</span>
-            <h1>Vai vender brigadeiro gourmet na rua?<br /><em>Não cobre como se fosse cento de salgado.</em></h1>
-            <p className="hero-text">Descubra quanto cobrar por cada brigadeiro, cubra seus custos e defina um preço que valorize seu produto — antes de sair para vender.</p>
+            <span className="eyebrow">Para quem quer vender brigadeiro gourmet e lucrar de verdade</span>
+            <h1>Você pode estar vendendo brigadeiro gourmet e <em>ganhando dinheiro de salgado.</em></h1>
+            <p className="hero-text">Saiba exatamente quanto cobrar para transformar cada encomenda em lucro — sem chutar o preço e sem desvalorizar seu trabalho.</p>
             <button className="primary-btn" onClick={goToCheckout}>Quero cobrar o preço certo <span>→</span></button>
             <div className="trust-row"><Check size={17} /> Precificação prática <span>•</span> Feito para iniciantes <span>•</span> 20 receitas bônus</div>
           </div>
