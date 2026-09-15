@@ -19,6 +19,18 @@ function BookMockup() {
   );
 }
 
+function PriceCalculatorDemo() {
+  return (
+    <div className="calculator-card">
+      <div className="calc-header"><div><span>PRIMEIRA ENCOMENDA</span><h2>Calculadora de preço</h2></div><Calculator size={26} /></div>
+      <div className="order-pill">Encomenda de 10 brigadeiros</div>
+      <div className="calc-total"><small>Custo estimado</small><strong>R$ 20,00</strong></div>
+      <div className="calc-stats"><div><span>Custo por unidade</span><b>R$ 2,00</b></div><div><span>Preço de referência</span><b>R$ 48,00</b></div></div>
+      <div className="calc-note">Ingredientes + embalagem + mão de obra + outros custos entram na conta.</div>
+    </div>
+  );
+}
+
 function App() {
   const goToCheckout = () => {
     if (CHECKOUT_URL.startsWith('http')) window.location.href = CHECKOUT_URL;
@@ -28,36 +40,33 @@ function App() {
   return (
     <main>
       <section className="hero">
-        <div className="container hero-grid">
-          <div className="hero-copy">
-            <span className="eyebrow">Para quem quer vender brigadeiro gourmet e lucrar de verdade</span>
-            <h1>Você pode estar vendendo brigadeiro gourmet e <em>ganhando dinheiro de salgado.</em></h1>
-            <p className="hero-text">Saiba exatamente quanto cobrar para transformar cada encomenda em lucro — sem chutar o preço e sem desvalorizar seu trabalho.</p>
-            <button className="primary-btn" onClick={goToCheckout}>Quero cobrar o preço certo <span>→</span></button>
-            <div className="trust-row"><Check size={17} /> Precificação prática <span>•</span> Feito para iniciantes <span>•</span> 20 receitas bônus</div>
-          </div>
-
-          <div className="calculator-card">
-            <div className="calc-header"><div><span>PRIMEIRA ENCOMENDA</span><h2>Calculadora de preço</h2></div><Calculator size={26} /></div>
-            <div className="order-pill">Encomenda de 10 brigadeiros</div>
-            <div className="calc-total"><small>Custo estimado</small><strong>R$ 20,00</strong></div>
-            <div className="calc-stats"><div><span>Custo por unidade</span><b>R$ 2,00</b></div><div><span>Preço de referência</span><b>R$ 48,00</b></div></div>
-            <div className="calc-note">Ingredientes + embalagem + mão de obra + outros custos entram na conta.</div>
-          </div>
+        <div className="container hero-copy hero-centered">
+          <span className="eyebrow">PRIMEIRA ENCOMENDA</span>
+          <h1>Você pode estar vendendo brigadeiro gourmet e <em>ganhando dinheiro de salgado.</em></h1>
+          <p className="hero-text">Saiba exatamente quanto cobrar para transformar cada encomenda em lucro — sem chutar o preço e sem desvalorizar seu trabalho.</p>
+          <button className="primary-btn" onClick={goToCheckout}>Quero cobrar o preço certo <span>→</span></button>
+          <div className="trust-row"><span><Check size={17} /> Precificação prática</span><span>•</span><span>Feito para iniciantes</span><span>•</span><span>20 receitas bônus</span></div>
         </div>
       </section>
 
       <section className="problem section">
         <div className="container narrow center">
           <span className="section-kicker">ANTES DE PRODUZIR</span>
-          <h2>O problema não é fazer o brigadeiro.<br /><span>É saber se a encomenda vale a pena.</span></h2>
-          <p>Quando você está começando, é fácil esquecer embalagem, seu tempo, gás, energia e outros pequenos custos. Aí você entrega, recebe o pagamento e só depois percebe que trabalhou muito por pouco.</p>
+          <h2>Entenda tudo que entra no custo<br /><span>da sua encomenda.</span></h2>
         </div>
         <div className="container cost-grid">
           <div className="cost-card"><WalletCards size={23}/><h3>Ingredientes</h3><p>Chocolate, leite condensado, manteiga, granulado e outros.</p><strong>R$ 28,50</strong></div>
           <div className="cost-card"><Clock3 size={23}/><h3>Mão de obra</h3><p>Seu tempo e dedicação também têm valor.</p><strong>R$ 22,00</strong></div>
           <div className="cost-card"><Package size={23}/><h3>Embalagem</h3><p>Caixinhas, forminhas, etiquetas e proteção.</p><strong>R$ 12,30</strong></div>
           <div className="cost-card"><Sparkles size={23}/><h3>Outros custos</h3><p>Energia, água, gás, utensílios e imprevistos.</p><strong>R$ 8,70</strong></div>
+        </div>
+
+        <div className="container calculator-demo-wrap">
+          <PriceCalculatorDemo />
+          <div className="calculator-subcopy center">
+            <h2>O problema não é fazer o brigadeiro,<br /><span>é saber se a encomenda vale a pena.</span></h2>
+            <p>Quando você está começando, é fácil esquecer embalagem, seu tempo, gás, energia e outros pequenos custos. Aí você entrega, recebe o pagamento e só depois percebe que trabalhou muito por pouco.</p>
+          </div>
         </div>
       </section>
 
