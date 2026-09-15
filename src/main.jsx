@@ -30,11 +30,11 @@ function App() {
       <section className="hero">
         <div className="container hero-grid">
           <div className="hero-copy">
-            <span className="eyebrow">Feito para quem está começando a vender doces</span>
-            <h1>Recebeu uma encomenda de <em>100 brigadeiros?</em><br />Descubra quanto cobrar antes de começar.</h1>
-            <p className="hero-text">Organize seus custos, defina um preço de venda e saiba o que pode sobrar — sem precisar fazer contas complicadas.</p>
-            <button className="primary-btn" onClick={goToCheckout}>Quero começar minha primeira encomenda <span>→</span></button>
-            <div className="trust-row"><Check size={17} /> Acesso simples <span>•</span> Calculadora prática <span>•</span> 20 receitas bônus</div>
+            <span className="eyebrow">Para quem quer vender brigadeiro gourmet na rua</span>
+            <h1>Vai vender brigadeiro gourmet na rua?<br /><em>Não cobre como se fosse cento de salgado.</em></h1>
+            <p className="hero-text">Descubra quanto cobrar por cada brigadeiro, cubra seus custos e defina um preço que valorize seu produto — antes de sair para vender.</p>
+            <button className="primary-btn" onClick={goToCheckout}>Quero cobrar o preço certo <span>→</span></button>
+            <div className="trust-row"><Check size={17} /> Precificação prática <span>•</span> Feito para iniciantes <span>•</span> 20 receitas bônus</div>
           </div>
 
           <div className="calculator-card">
