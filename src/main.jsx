@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import { Calculator, Check, Clock3, Package, Sparkles, TrendingUp, Utensils, WalletCards, BadgePercent, MousePointer2 } from 'lucide-react';
+import { Calculator, Check, Clock3, Package, Sparkles, TrendingUp, Utensils, WalletCards, BadgePercent, MousePointer2, X, Megaphone, MessageCircle } from 'lucide-react';
 import './styles.css';
 
 const CHECKOUT_URL = import.meta.env.VITE_CAKTO_CHECKOUT_URL || '#oferta';
@@ -153,14 +153,60 @@ function CalculatorCarousel() {
   );
 }
 
-function App() {
-  const goToCheckout = () => {
+function OrderBumpModal({ onClose }) {
+  const [selected, setSelected] = useState({ divulgacao: false, pedidos: false });
+
+  const total = 9.9 + (selected.divulgacao ? 6.9 : 0) + (selected.pedidos ? 4.9 : 0);
+  const formattedTotal = total.toFixed(2).replace('.', ',');
+
+  const continueToCheckout = () => {
     if (CHECKOUT_URL.startsWith('http')) window.location.href = CHECKOUT_URL;
-    else document.querySelector('#oferta')?.scrollIntoView({ behavior: 'smooth' });
+    else {
+      onClose();
+      document.querySelector('#oferta')?.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
+    <div className="bump-overlay" role="dialog" aria-modal="true" aria-labelledby="bump-title" style={{position:'fixed',inset:0,zIndex:9999,background:'rgba(45,20,16,.72)',display:'flex',alignItems:'center',justifyContent:'center',padding:'20px',overflowY:'auto'}}>
+      <div className="bump-modal" style={{width:'min(680px,100%)',maxHeight:'calc(100vh - 40px)',overflowY:'auto',background:'#fffaf4',border:'3px solid #bd3029',borderRadius:'26px',boxShadow:'0 30px 100px rgba(30,10,5,.35)',padding:'30px',position:'relative'}}>
+        <button onClick={onClose} aria-label="Fechar" style={{position:'absolute',top:14,right:14,border:0,background:'#f6e5de',color:'#6b332d',width:38,height:38,borderRadius:'50%',cursor:'pointer',display:'grid',placeItems:'center'}}><X size={20}/></button>
+        <div style={{textAlign:'center',padding:'0 25px 20px'}}>
+          <span style={{display:'inline-flex',padding:'8px 14px',borderRadius:999,background:'#bd3029',color:'#fff',fontSize:11,fontWeight:900,letterSpacing:'.12em'}}>OFERTA ESPECIAL</span>
+          <h2 id="bump-title" style={{fontSize:'clamp(28px,5vw,42px)',lineHeight:1.05,margin:'16px 0 10px',color:'#321a17',fontWeight:950}}>Antes de continuar...</h2>
+          <p style={{margin:0,color:'#5d3b35',fontSize:16,fontWeight:600,lineHeight:1.45}}>Quer deixar sua primeira venda ainda mais fácil? Você já vai receber a calculadora + 20 receitas. Aproveite para levar também estes materiais.</p>
+        </div>
+
+        <div style={{display:'grid',gap:13}}>
+          <label style={{display:'flex',gap:14,alignItems:'flex-start',padding:'18px',border:selected.pedidos?'2px solid #bd3029':'2px solid #ead8cf',borderRadius:18,background:selected.pedidos?'#fff0e8':'#fff',cursor:'pointer'}}>
+            <input type="checkbox" checked={selected.pedidos} onChange={e=>setSelected(s=>({...s,pedidos:e.target.checked}))} style={{marginTop:4,width:20,height:20,accentColor:'#bd3029'}} />
+            <span style={{display:'grid',gap:6,flex:1}}><strong style={{fontSize:18,color:'#321a17',fontWeight:950,display:'flex',alignItems:'center',gap:7}}><MessageCircle size={20} color="#bd3029"/>QUERO FACILITAR MEUS PEDIDOS!</strong><span style={{fontSize:14,color:'#5d3b35',lineHeight:1.45,fontWeight:600}}>Receba mensagens prontas para conversar com clientes + um kit de cardápio para apresentar seus brigadeiros de forma mais profissional.</span><b style={{color:'#bd3029'}}>R$ 4,90</b></span>
+          </label>
+
+          <label style={{display:'flex',gap:14,alignItems:'flex-start',padding:'18px',border:selected.divulgacao?'2px solid #bd3029':'2px solid #ead8cf',borderRadius:18,background:selected.divulgacao?'#fff0e8':'#fff',cursor:'pointer'}}>
+            <input type="checkbox" checked={selected.divulgacao} onChange={e=>setSelected(s=>({...s,divulgacao:e.target.checked}))} style={{marginTop:4,width:20,height:20,accentColor:'#bd3029'}} />
+            <span style={{display:'grid',gap:6,flex:1}}><strong style={{fontSize:18,color:'#321a17',fontWeight:950,display:'flex',alignItems:'center',gap:7}}><Megaphone size={20} color="#bd3029"/>QUERO DIVULGAR MEUS BRIGADEIROS!</strong><span style={{fontSize:14,color:'#5d3b35',lineHeight:1.45,fontWeight:600}}>Leve junto <b>20 legendas prontas + 10 imagens para divulgação</b> e comece a postar seu negócio sem precisar pensar no que escrever.</span><b style={{color:'#bd3029'}}>R$ 6,90</b></span>
+          </label>
+        </div>
+
+        <div style={{marginTop:20,padding:'16px 18px',background:'#47241f',borderRadius:16,color:'#fff8f2',display:'flex',justifyContent:'space-between',alignItems:'center',gap:12}}><span style={{fontWeight:800}}>Total da sua escolha</span><strong style={{fontSize:28}}>R$ {formattedTotal}</strong></div>
+        <button onClick={continueToCheckout} className="primary-btn" style={{width:'100%',marginTop:15,fontSize:16}}>Continuar para o pagamento <span>→</span></button>
+        <button onClick={onClose} style={{width:'100%',marginTop:10,border:0,background:'transparent',color:'#765c54',fontWeight:800,cursor:'pointer',padding:8}}>Quero somente a calculadora + 20 receitas bônus</button>
+        <p style={{textAlign:'center',fontSize:11,color:'#8b7068',margin:'10px 0 0'}}>Você pode escolher nenhum, um ou os dois materiais extras.</p>
+      </div>
+    </div>
+  );
+}
+
+function App() {
+  const [showBumps, setShowBumps] = useState(false);
+
+  const goToCheckout = () => setShowBumps(true);
+
+  return (
     <main>
+      {showBumps && <OrderBumpModal onClose={() => setShowBumps(false)} />}
+
       <section className="hero">
         <div className="container hero-copy hero-centered">
           <span className="eyebrow">PRIMEIRA ENCOMENDA</span>
