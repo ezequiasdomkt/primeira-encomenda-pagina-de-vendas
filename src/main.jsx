@@ -6,11 +6,11 @@ import './styles.css';
 const CHECKOUT_URL = import.meta.env.VITE_CAKTO_CHECKOUT_URL || '#oferta';
 
 const calculatorSlides = [
-  { title: 'Ingredientes', text: 'Chocolate, leite condensado, manteiga, granulado e outros.', value: 'R$ 28,50', icon: WalletCards },
-  { title: 'Mão de obra', text: 'Seu tempo e dedicação também têm valor.', value: 'R$ 22,00', icon: Clock3 },
-  { title: 'Embalagem', text: 'Caixinhas, forminhas, etiquetas e proteção.', value: 'R$ 12,30', icon: Package },
-  { title: 'Outros custos', text: 'Energia, água, gás, utensílios e imprevistos.', value: 'R$ 8,70', icon: Sparkles },
-  { title: 'Margem de lucro', text: 'Escolha uma margem para saber quanto cobrar com segurança.', value: '40%', icon: BadgePercent },
+  { title: 'Ingredientes', text: 'Chocolate, leite condensado, manteiga, granulado e outros.', value: 'R$ 28,50', icon: WalletCards, image: '/images/ingredients.svg' },
+  { title: 'Mão de obra', text: 'Seu tempo e dedicação também têm valor.', value: 'R$ 22,00', icon: Clock3, image: '/images/labor.svg' },
+  { title: 'Embalagem', text: 'Caixinhas, forminhas, etiquetas e proteção.', value: 'R$ 12,30', icon: Package, image: '/images/packaging.svg' },
+  { title: 'Outros custos', text: 'Energia, água, gás, utensílios e imprevistos.', value: 'R$ 8,70', icon: Sparkles, image: '/images/costs.svg' },
+  { title: 'Margem de lucro', text: 'Escolha uma margem para saber quanto cobrar com segurança.', value: '40%', icon: BadgePercent, image: '/images/profit.svg' },
 ];
 
 function BookMockup() {
@@ -136,11 +136,18 @@ function CalculatorCarousel() {
           return (
             <article key={slide.title} className="carousel-slide">
               <div className="carousel-icon"><Icon size={25} /></div>
-              <div>
+              <div style={{ minWidth: 0, flex: 1 }}>
                 <h3>{slide.title}</h3>
                 <p>{slide.text}</p>
                 <strong>{slide.value}</strong>
               </div>
+              <img
+                className="carousel-image"
+                src={slide.image}
+                alt={`Ilustração de ${slide.title.toLowerCase()}`}
+                loading="lazy"
+                style={{ width: 120, height: 120, objectFit: 'cover', borderRadius: 18, flex: '0 0 auto', alignSelf: 'center', border: '2px solid #f0d4ca', boxShadow: '0 10px 25px #5d33251a', background: '#fff0e8' }}
+              />
             </article>
           );
         })}
