@@ -163,7 +163,7 @@ function CalculatorCarousel() {
 function OrderBumpModal({ onClose }) {
   const [selected, setSelected] = useState({ divulgacao: false, pedidos: false });
 
-  const total = 9.9 + (selected.divulgacao ? 6.9 : 0) + (selected.pedidos ? 4.9 : 0);
+  const total = 9.9 + (selected.divulgacao ? 6.9 : 0) + (selected.pedidos ? 5.0 : 0);
   const formattedTotal = total.toFixed(2).replace('.', ',');
 
   const continueToCheckout = () => {
@@ -187,7 +187,7 @@ function OrderBumpModal({ onClose }) {
         <div style={{display:'grid',gap:13}}>
           <label style={{display:'flex',gap:14,alignItems:'flex-start',padding:'18px',border:selected.pedidos?'2px solid #bd3029':'2px solid #ead8cf',borderRadius:18,background:selected.pedidos?'#fff0e8':'#fff',cursor:'pointer'}}>
             <input type="checkbox" checked={selected.pedidos} onChange={e=>setSelected(s=>({...s,pedidos:e.target.checked}))} style={{marginTop:4,width:20,height:20,accentColor:'#bd3029'}} />
-            <span style={{display:'grid',gap:6,flex:1}}><strong style={{fontSize:18,color:'#321a17',fontWeight:950,display:'flex',alignItems:'center',gap:7}}><MessageCircle size={20} color="#bd3029"/>QUERO FACILITAR MEUS PEDIDOS!</strong><span style={{fontSize:14,color:'#5d3b35',lineHeight:1.45,fontWeight:600}}>Receba mensagens prontas para conversar com clientes + um kit de cardápio para apresentar seus brigadeiros de forma mais profissional.</span><b style={{color:'#bd3029'}}>R$ 4,90</b></span>
+            <span style={{display:'grid',gap:6,flex:1}}><strong style={{fontSize:18,color:'#321a17',fontWeight:950,display:'flex',alignItems:'center',gap:7}}><MessageCircle size={20} color="#bd3029"/>QUERO FACILITAR MEUS PEDIDOS!</strong><span style={{fontSize:14,color:'#5d3b35',lineHeight:1.45,fontWeight:600}}>Receba mensagens prontas para conversar com clientes + um kit de cardápio para apresentar seus brigadeiros de forma mais profissional.</span><b style={{color:'#bd3029'}}>R$ 5,00</b></span>
           </label>
 
           <label style={{display:'flex',gap:14,alignItems:'flex-start',padding:'18px',border:selected.divulgacao?'2px solid #bd3029':'2px solid #ead8cf',borderRadius:18,background:selected.divulgacao?'#fff0e8':'#fff',cursor:'pointer'}}>
